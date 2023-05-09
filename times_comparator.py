@@ -14,18 +14,18 @@ def Timing(wd, url):
     time.sleep(20)
 
     thereAreMoreTd = True
-    tdNumber = 0
+    row = 0
 
     while thereAreMoreTd:
         try:
             id = wd.find_element(
-                By.XPATH, f'//*[@id="row{tdNumber}"]/td[2]').text.replace('# ', '')
+                By.XPATH, f'//*[@id="row{row}"]/td[2]').text.replace('# ', '')
             start_time = wd.find_element(
-                By.XPATH, f'//*[@id="row{tdNumber}"]/td[6]').text
+                By.XPATH, f'//*[@id="row{row}"]/td[6]').text
             finish_time = wd.find_element(
-                By.XPATH, f'//*[@id="row{tdNumber}"]/td[8]').text
+                By.XPATH, f'//*[@id="row{row}"]/td[8]').text
             times[id] = CronoTiming(start_time, finish_time)
-            tdNumber = tdNumber + 1
+            row = row + 1
         except:
             thereAreMoreTd = False
 
@@ -39,18 +39,28 @@ def Scores(wd, url):
     time.sleep(30)
 
     thereAreMoreTd = True
-    tdNumber = 1
+    thereAreMoreColumns = True
+    row = 1
+    column = 2
+
+    while thereAreMoreColumns:
+        try:
+            wd.find_element(f'//*[@id="main"]/div/table/thead/tr[2]/th[{column}]/a')
+            column = column + 1
+        except:
+            thereAreMoreColumns = False
+
 
     while thereAreMoreTd:
         try:
             id = wd.find_element(
-                By.XPATH, f'//*[@id="main"]/div/table/tbody/tr[{tdNumber}]/td[1]/a/span').text.replace('# ', '')
+                By.XPATH, f'//*[@id="main"]/div/table/tbody/tr[{row}]/td[1]/a/span').text.replace('# ', '')
             start_time = wd.find_element(
-                By.XPATH, f'//*[@id="main"]/div/table/tbody/tr[{tdNumber}]/td[2]/a').text
+                By.XPATH, f'//*[@id="main"]/div/table/tbody/tr[{row}]/td[2]/a').text
             finish_time = wd.find_element(
-                By.XPATH, f'//*[@id="main"]/div/table/tbody/tr[{tdNumber}]/td[4]/a').text
+                By.XPATH, f'//*[@id="main"]/div/table/tbody/tr[{row}]/td[4]/a').text
             times[id] = CronoTiming(start_time, finish_time)
-            tdNumber = tdNumber + 1
+            row = row + 1
         except:
             thereAreMoreTd = False
 
