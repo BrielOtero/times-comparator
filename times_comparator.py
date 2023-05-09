@@ -45,7 +45,7 @@ def Scores(wd, url):
 
     while thereAreMoreColumns:
         try:
-            wd.find_element(f'//*[@id="main"]/div/table/thead/tr[2]/th[{column}]/a')
+            wd.find_element(By.XPATH, f'//*[@id="main"]/div/table/thead/tr[2]/th[{column}]/a')
             column = column + 1
         except:
             thereAreMoreColumns = False
@@ -58,7 +58,7 @@ def Scores(wd, url):
             start_time = wd.find_element(
                 By.XPATH, f'//*[@id="main"]/div/table/tbody/tr[{row}]/td[2]/a').text
             finish_time = wd.find_element(
-                By.XPATH, f'//*[@id="main"]/div/table/tbody/tr[{row}]/td[4]/a').text
+                By.XPATH, f'//*[@id="main"]/div/table/tbody/tr[{row}]/td[{column-1}]/a').text # Decrement because it
             times[id] = CronoTiming(start_time, finish_time)
             row = row + 1
         except:
@@ -85,7 +85,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--timing', help='Timing url', default=argparse.SUPPRESS)
     parser.add_argument('--scores', help='Scores url',default=argparse.SUPPRESS)
-    
+
     try:
         args = parser.parse_args()
     except argparse.ArgumentError as exc:
