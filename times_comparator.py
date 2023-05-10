@@ -6,6 +6,7 @@ import logging
 from datetime import datetime
 from crono_timing import CronoTiming
 import argparse
+import os
 
 
 def Timing(wd, url):
@@ -102,12 +103,19 @@ def main():
             wd = uc.Chrome(use_subprocess=True, options=chrome_options)
             wd.implicitly_wait(10)
 
+            # Check and create times folder
+            log_dir = "times"
+
+            if not os.path.exists(log_dir):
+                os.makedirs(log_dir)
+
+
             # Logging
             logger = logging.getLogger(__name__)
             logger.setLevel(logging.INFO)
 
             # Create a file handler
-            handler = logging.FileHandler('times.txt')
+            handler = logging.FileHandler(os.path.join(log_dir, 'times.txt'))
             handler.setLevel(logging.INFO)
 
             # Create a custom formatter without the INFO:root: prefix
